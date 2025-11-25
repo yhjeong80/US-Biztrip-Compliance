@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=no">
   <title>PDF Viewer</title>
   <link rel="stylesheet" href="viewer.css">
+  <!-- 홈 버튼 스타일 추가 -->
+  <style>
+    .toolbar .home-link {
+      margin-right: 8px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: #2563eb;
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      display: inline-block;
+    }
+  </style>
   <!-- PDF.js via CDN -->
   <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
   <script>
@@ -13,6 +27,9 @@
 </head>
 <body>
   <div class="toolbar">
+    <!-- 🔹 홈으로 돌아가기 링크 추가 -->
+    <a href="../index.html" class="home-link">← 홈으로</a>
+
     <button id="prev">◀</button>
     <span>페이지 <input id="page-num" type="number" min="1" value="1"> / <span id="page-count">1</span></span>
     <button id="next">▶</button>
