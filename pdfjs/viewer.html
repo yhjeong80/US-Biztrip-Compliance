@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=no">
+  <title>PDF Viewer</title>
+  <link rel="stylesheet" href="viewer.css">
+  <!-- PDF.js via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+  </script>
+</head>
+<body>
+  <div class="toolbar">
+    <button id="prev">◀</button>
+    <span>페이지 <input id="page-num" type="number" min="1" value="1"> / <span id="page-count">1</span></span>
+    <button id="next">▶</button>
+    <span class="spacer"></span>
+    <button id="zoom-out">－</button>
+    <span id="zoom">100%</span>
+    <button id="zoom-in">＋</button>
+    <button id="fit-width">폭 맞춤</button>
+  </div>
+  <div id="viewer-wrap">
+    <canvas id="pdf-render"></canvas>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
