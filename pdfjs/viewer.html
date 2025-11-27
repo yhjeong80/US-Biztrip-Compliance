@@ -2,10 +2,14 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=no">
+  <!-- 🔹 핀치줌 허용: user-scalable=yes & maximum-scale 확대 -->
+  <meta name="viewport"
+        content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes">
+
   <title>PDF Viewer</title>
   <link rel="stylesheet" href="viewer.css">
-  <!-- 홈 버튼 스타일 추가 -->
+
+  <!-- 🔹 홈 버튼 + 핀치줌 관련 스타일 -->
   <style>
     .toolbar .home-link {
       margin-right: 8px;
@@ -18,30 +22,57 @@
       font-weight: 500;
       display: inline-block;
     }
+
+    /* 🔹 핀치줌을 캔버스 영역에서 허용 */
+    #viewer-wrap,
+    #pdf-render {
+      touch-action: pinch-zoom;
+    }
+
+    /* 🔹 (선택) 모바일 기기에서는 기존 줌 UI 숨기기 */
+    @media (pointer: coarse) {
+      #zoom-out,
+      #zoom-in,
+      #fit-width,
+      #zoom {
+        display: none;
+      }
+    }
   </style>
+
   <!-- PDF.js via CDN -->
   <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
   <script>
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
   </script>
 </head>
+
 <body>
   <div class="toolbar">
-    <!-- 🔹 홈으로 돌아가기 링크 추가 -->
+    <!-- 🔹 홈으로 돌아가기 링크 -->
     <a href="../index.html" class="home-link">← 홈으로</a>
 
     <button id="prev">◀</button>
-    <span>페이지 <input id="page-num" type="number" min="1" value="1"> / <span id="page-count">1</span></span>
+    <span>
+      페이지 <input id="page-num" type="number" min="1" value="1">
+      / <span id="page-count">1</span>
+    </span>
     <button id="next">▶</button>
+
     <span class="spacer"></span>
+
+    <!-- 🔹 기존 zoom 버튼 유지 (모바일에서는 자동 숨김) -->
     <button id="zoom-out">－</button>
     <span id="zoom">100%</span>
     <button id="zoom-in">＋</button>
     <button id="fit-width">폭 맞춤</button>
   </div>
+
   <div id="viewer-wrap">
     <canvas id="pdf-render"></canvas>
   </div>
+
   <script src="app.js"></script>
 </body>
 </html>
