@@ -2,14 +2,14 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <!-- 🔹 핀치줌 허용: user-scalable=yes & maximum-scale 확대 -->
+
+  <!-- 🔹 핀치줌 허용 -->
   <meta name="viewport"
         content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes">
 
   <title>PDF Viewer</title>
   <link rel="stylesheet" href="viewer.css">
 
-  <!-- 🔹 홈 버튼 + 핀치줌 관련 스타일 -->
   <style>
     .toolbar .home-link {
       margin-right: 8px;
@@ -23,13 +23,27 @@
       display: inline-block;
     }
 
-    /* 🔹 핀치줌을 캔버스 영역에서 허용 */
-    #viewer-wrap,
-    #pdf-render {
-      touch-action: pinch-zoom;
+    /* 
+      🔥 핵심 수정 부분
+      기존: touch-action: pinch-zoom;  ← 이것 때문에 한 손가락 드래그 막힘
+      변경: pan-x pan-y pinch-zoom;  ← 핀치줌 + 한 손가락 이동 둘 다 허용
+    */
+    #viewer-wrap {
+      touch-action: pan-x pan-y pinch-zoom;
+      width: 100%;
+      height: calc(100vh - 48px); /* 상단 toolbar 제외 */
+      overflow: auto; /* 확대 시 스크롤 가능 */
+      background: #111;
     }
 
-    /* 🔹 (선택) 모바일 기기에서는 기존 줌 UI 숨기기 */
+    /* 캔버스는 기본값(auto)로 두는 것이 좋음 */
+    #pdf-render {
+      display: block;
+      margin: 0 auto;
+      touch-action: auto;
+    }
+
+    /* 모바일에서는 기존 줌 버튼 숨김 */
     @media (pointer: coarse) {
       #zoom-out,
       #zoom-in,
@@ -50,7 +64,6 @@
 
 <body>
   <div class="toolbar">
-    <!-- 🔹 홈으로 돌아가기 링크 -->
     <a href="../index.html" class="home-link">← 홈으로</a>
 
     <button id="prev">◀</button>
@@ -62,7 +75,6 @@
 
     <span class="spacer"></span>
 
-    <!-- 🔹 기존 zoom 버튼 유지 (모바일에서는 자동 숨김) -->
     <button id="zoom-out">－</button>
     <span id="zoom">100%</span>
     <button id="zoom-in">＋</button>
